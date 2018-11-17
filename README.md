@@ -49,7 +49,7 @@ So it is handled after ip-restriction, bot-detection, cors and after [kong-http-
     * List of patterns of allowed referer headers (`Referer: http://example.org/referring_page`).
       Referer is converted to lower case before matching.
       Any incoming request must match at least one of the patterns.
-      So the List should not be empty because this would not allow any request.
+      If no pattern is configured / list is empty then everything is allowed.
         
 ## Misc
 

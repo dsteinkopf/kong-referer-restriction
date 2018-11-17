@@ -17,7 +17,7 @@ end
 function HttpFilterHandler:access(conf)
   HttpFilterHandler.super.access(self)
 
-  if not checks.matches_one_of(ngx.header["Referer"]:lower(), conf.allowed_referer_patterns) then
+  if not checks.is_allowed_referer(ngx.req.get_headers()["Referer"], conf.allowed_referer_patterns) then
     return responses.send_HTTP_FORBIDDEN()
   end
 end

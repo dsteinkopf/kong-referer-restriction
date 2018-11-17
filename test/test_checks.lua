@@ -30,6 +30,29 @@ function TestChecks:test_matches_one_of()
     luaunit.assertTrue(checks.matches_one_of(uri3, uri_patterns_one))
     luaunit.assertTrue(checks.matches_one_of(uri3, uri_patterns_many))
 
+    luaunit.assertFalse(checks.matches_one_of(uri1, nil))
+    luaunit.assertFalse(checks.matches_one_of(nil, nil))
+end
+
+function test_is_allowed_referer()
+
+    local allowed_referer_patterns = { "abc", "xyz$" }
+
+    luaunit.assertTrue(checks.is_allowed_referer("somereferer", nil))
+    luaunit.assertTrue(checks.is_allowed_referer("somereferer", {}))
+    luaunit.assertTrue(checks.is_allowed_referer("", nil))
+    luaunit.assertTrue(checks.is_allowed_referer("", {}))
+    luaunit.assertTrue(checks.is_allowed_referer(nil, nil))
+    luaunit.assertTrue(checks.is_allowed_referer(nil, {}))
+
+    luaunit.assertFalse(checks.is_allowed_referer("", allowed_referer_patterns))
+    luaunit.assertFalse(checks.is_allowed_referer(nil, allowed_referer_patterns))
+    luaunit.assertFalse(checks.is_allowed_referer("other", allowed_referer_patterns))
+
+    luaunit.assertTrue(checks.is_allowed_referer("aaXYZ", allowed_referer_patterns))
+    luaunit.assertFalse(checks.is_allowed_referer("aaxyz00", allowed_referer_patterns))
+    luaunit.assertTrue(checks.is_allowed_referer("00abcde", allowed_referer_patterns))
+
 end
 
 
