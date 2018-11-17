@@ -13,6 +13,10 @@ function _M.matches_one_of(str, patterns)
 end
 
 function _M.is_allowed_referer(referer, allowed_referer_patterns)
+    if type(referer) == "table" then
+        -- header was sent more than once - not specified -> not allowed
+        return false
+    end
     if allowed_referer_patterns == nil or next(allowed_referer_patterns) == nil then
         -- if no patterns is configured or table is empty then no check is done -> everything is allowed
         return true

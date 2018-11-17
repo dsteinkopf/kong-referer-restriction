@@ -53,6 +53,8 @@ function test_is_allowed_referer()
     luaunit.assertFalse(checks.is_allowed_referer("aaxyz00", allowed_referer_patterns))
     luaunit.assertTrue(checks.is_allowed_referer("00abcde", allowed_referer_patterns))
 
+    -- header was sent more than once:
+    luaunit.assertFalse(checks.is_allowed_referer({ "00abcde", "xyz" }, allowed_referer_patterns))
 end
 
 
