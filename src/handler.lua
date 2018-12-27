@@ -1,6 +1,5 @@
 local BasePlugin = require "kong.plugins.base_plugin"
 local checks = require "kong.plugins.kong-referer-restriction.checks"
-local responses = require "kong.tools.responses"
 
 local HttpFilterHandler = BasePlugin:extend()
 
@@ -18,7 +17,10 @@ function HttpFilterHandler:access(conf)
   HttpFilterHandler.super.access(self)
 
   if not checks.is_allowed_referer(ngx.req.get_headers()["Referer"], conf.allowed_referer_patterns) then
-    return responses.send_HTTP_FORBIDDEN()
+    return kong.response.exit(403, "Access Forbidden", {
+      ["Content-Type"] = "text/plain",
+      ["WWW-Authenticate"] = "Basic"
+    })
   end
 end
 
