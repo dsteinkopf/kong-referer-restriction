@@ -1,4 +1,4 @@
-# kong-response-string-replace
+# kong-referer-restriction
 
 A Kong plugin that allows restriction of request based on their referer header.
 This could be useful e.g. to prevent "hotlinked" images.
